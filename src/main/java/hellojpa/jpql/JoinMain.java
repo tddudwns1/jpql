@@ -22,26 +22,50 @@ public class JoinMain implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        Team team = new Team();
-        team.setName("teasmA");
-        em.persist(team);
+        Team team1 = new Team();
+        team1.setName("teasmA");
+        Team team2 = new Team();
+        team2.setName("teasmB");
+        em.persist(team1);
+        em.persist(team2);
 
         Member member1 = new Member();
         member1.setUsername("member1");
         member1.setAge(10);
-        member1.setTeam(team);
+        member1.changeTeam(team1);
         member1.setType(MemberType.ADMIN);
         em.persist(member1);
 
+        Member member2 = new Member();
+        member2.setUsername("member2");
+        member2.setAge(10);
+        member2.changeTeam(team1);
+        member2.setType(MemberType.ADMIN);
+        em.persist(member2);
 
-        String query = "select m from Member m where m.type = :userType";
-        List<Member> result = em.createQuery(query, Member.class)
-                .setParameter("userType", MemberType.ADMIN)
+        Member member3 = new Member();
+        member3.setUsername("member2");
+        member3.setAge(10);
+        member3.changeTeam(team2);
+        member3.setType(MemberType.ADMIN);
+        em.persist(member3);
+
+
+        String query1 = "select m from Member m join fetch m.team";
+        List<Member> result1 = em.createQuery(query1, Member.class)
                 .getResultList();
 
-        System.out.println("result.size() = " + result.size());
-        for (Member member : result) {
-            System.out.println("member = " + member);
+        for (Member member : result1) {
+            System.out.println("member = " + member.getUsername() + ", " + member.getTeam().getName());
+        }
+
+
+        String query2 = "select t from Team t join fetch t.members";
+        List<Team> result2 = em.createQuery(query2, Team.class)
+                .getResultList();
+
+        for (Team team : result2) {
+            System.out.println("team.getName() = " + team.getName() + ", size() = " + team.getMembers().size());
         }
     }
 }
