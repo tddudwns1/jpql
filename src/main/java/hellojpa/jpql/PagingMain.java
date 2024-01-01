@@ -19,21 +19,21 @@ public class PagingMain implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
 
-        for (int i = 0; i < 100; i++) {
-            Member member = new Member();
-            member.setUsername("member" + i);
-            member.setAge(i);
-            em.persist(member);
-        }
-
-        List<Member> result = em.createQuery("select m from Member m order by m.age desc", Member.class)
-                .setFirstResult(0)
-                .setMaxResults(10)
-                .getResultList();
-
-        System.out.println("result.size() = " + result.size());
-        for (Member member : result) {
-            System.out.println("member = " + member);
-        }
+        //for (int i = 0; i < 100; i++) {
+        //    Member member = new Member();
+        //    member.setUsername("member" + i);
+        //    member.setAge(i);
+        //    em.persist(member);
+        //}
+        //
+        //List<Member> result = em.createQuery("select m from Member m order by m.age desc", Member.class)
+        //        .setFirstResult(0)
+        //        .setMaxResults(10)
+        //        .getResultList();
+        //
+        //System.out.println("result.size() = " + result.size());
+        //for (Member member : result) {
+        //    System.out.println("member = " + member);
+        //}
     }
 }
