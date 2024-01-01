@@ -1,6 +1,7 @@
 package hellojpa.jpql;
 
 import hellojpa.jpql.domain.Member;
+import hellojpa.jpql.domain.MemberDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -41,5 +42,9 @@ public class JpaMain implements CommandLineRunner {
         query4.setParameter("username", "member1");
         Member singleResult1 = query4.getSingleResult();
         System.out.println("singleResult1 = " + singleResult1);
+
+        List<MemberDTO> resultList1 = em.createQuery("select new hellojpa.jpql.domain.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
+                .getResultList();
+
     }
 }
